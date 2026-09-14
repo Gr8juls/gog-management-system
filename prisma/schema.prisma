@@ -1,0 +1,352 @@
+// Prisma schema for GOG Management System
+// Compatible with SQLite for local development and PostgreSQL for production
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         String    // ADMIN, MANAGER, SALES, PRODUCTION, INVENTORY
+  phone        String?
+  avatarUrl    String?
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  assignedJobs       Job[]             @relation("AssignedStaff")
+  productionRuns     DailyProduction[] @relation("Operator")
+  inkUsages          InkUsage[]        @relation("InkOperator")
+  transactionsCreated StockTransaction[] @relation("TransactionCreator")
+  transactionsApproved StockTransaction[] @relation("TransactionApprover")
+  issuedMaterials    MaterialIssue[]   @relation("MaterialIssuer")
+  receivedMaterials  MaterialIssue[]   @relation("MaterialReceiver")
+  returnedMaterials  MaterialReturn[]  @relation("MaterialReturner")
+  receivedReturns    MaterialReturn[]  @relation("MaterialReturnReceiver")
+  purchasesReceived  Purchase[]        @relation("PurchaseReceiver")
+  paymentsRecorded   Payment[]         @relation("PaymentRecorder")
+  auditLogs          AuditLog[]
+}
+
+model Customer {
+  id                 String    @id @default(uuid())
+  customerNumber     String    @unique
+  name               String
+  phone              String
+  email              String?
+  address            String?
+  customerType       String    @default("INDIVIDUAL") // INDIVIDUAL, CORPORATE, SCHOOL, NGO, RESELLER
+  notes              String?
+  isArchived         Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  jobs               Job[]
+}
+
+model Job {
+  id                   String    @id @default(uuid())
+  jobNumber            String    @unique // e.g. GOG-000001
+  customerId           String
+  dateReceived         DateTime  @default(now())
+  requiredDate         DateTime
+  productType          String    // T-shirts, Polo shirts, Caps, Mugs, Banners, Stickers, Signage, etc.
+  brandingMethod       String    // Screen printing, DTF, DTG, Heat transfer, Sublimation, Embroidery, Vinyl cutting, Large-format printing, Other
+  designReference      String?
+  artworkUrl           String?
+  assignedStaffId      String?
+  priority             String    @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
+  status               String    @default("QUOTATION") // QUOTATION, AWAITING_APPROVAL, APPROVED, MATERIALS_RESERVED, IN_PRODUCTION, QUALITY_CHECK, COMPLETED, DELIVERED, CANCELLED
+  totalAmount          Float     @default(0)
+  discount             Float     @default(0)
+  tax                  Float     @default(0)
+  depositPaid          Float     @default(0)
+  balanceDue           Float     @default(0)
+  notes                String?
+  
+  // Cost estimates for profitability calculation
+  labourCostEstimate   Float     @default(0)
+  overheadCostEstimate Float     @default(0)
+  packagingCostEstimate Float    @default(0)
+  deliveryCostEstimate Float     @default(0)
+
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  customer             Customer          @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  assignedStaff        User?             @relation("AssignedStaff", fields: [assignedStaffId], references: [id], onDelete: SetNull)
+  items                JobItem[]
+  dailyProductions     DailyProduction[]
+  stockTransactions    StockTransaction[]
+  inkUsages            InkUsage[]
+  materialIssues       MaterialIssue[]
+  materialReturns      MaterialReturn[]
+  payments             Payment[]
+}
+
+model JobItem {
+  id                String    @id @default(uuid())
+  jobId             String
+  itemDescription   String
+  garmentType       String?   // Round-neck, Polo, Hoodie, etc.
+  brand             String?   // Gildan, Fruit of the Loom, Plain, etc.
+  size              String?   // S, M, L, XL, XXL, etc.
+  color             String?   // Black, White, Navy, Red, etc.
+  quantityOrdered   Int
+  quantityCompleted Int       @default(0)
+  quantityRejected  Int       @default(0)
+  quantityDamaged   Int       @default(0)
+  quantityReturned  Int       @default(0)
+  quantityPending   Int
+  unitPrice         Float
+  totalPrice        Float
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  job               Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  dailyProductions  DailyProduction[]
+}
+
+model DailyProduction {
+  id                String    @id @default(uuid())
+  date              DateTime  @default(now())
+  jobId             String
+  jobItemId         String?
+  product           String
+  productionMethod  String
+  quantityPlanned   Int
+  quantityStarted   Int
+  quantityCompleted Int
+  quantityRejected  Int       @default(0)
+  quantityDamaged   Int       @default(0)
+  quantityRemaining Int
+  operatorId        String?
+  workstation       String?   // Machine 1, Heat Press B, Screen Station 3
+  startTime         String?
+  endTime           String?
+  notes             String?
+  qualityStatus     String    @default("PASSED") // PASSED, REWORK, FAILED
+  managerApproved   Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  job               Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobItem           JobItem?  @relation(fields: [jobItemId], references: [id], onDelete: SetNull)
+  operator          User?     @relation("Operator", fields: [operatorId], references: [id], onDelete: SetNull)
+}
+
+model InventoryItem {
+  id               String    @id @default(uuid())
+  sku              String    @unique
+  name             String
+  category         String    // BLANK_TSHIRTS, OTHER_GARMENTS, INK, DTF_POWDER, TRANSFER_FILM, VINYL, SUBLIMATION_PAPER, STICKER_PAPER, BANNER_MATERIAL, PACKAGING, CLEANING_SUPPLIES, SPARE_PARTS, OTHER
+  description      String?
+  unitOfMeasure    String    // pcs, rolls, bottles, ml, kg, meters
+  
+  // Specific attributes for garments
+  garmentType      String?   // Round-neck, V-neck, Polo, Hoodie, Cap
+  brand            String?   // Gildan, Anvil, Local
+  size             String?   // XS, S, M, L, XL, 2XL, 3XL
+  color            String?   // Black, White, Red, Navy Blue, Heather Grey
+  gender           String?   // Unisex, Men, Women, Kids
+
+  openingStock     Float     @default(0)
+  currentStock     Float     @default(0)
+  reorderLevel     Float     @default(10)
+  maxStockLevel    Float?
+  unitCost         Float     @default(0)
+  sellingPrice     Float?
+  supplierId       String?
+  storageLocation  String?   // Shelf A-1, Bin 4, Ink Cabinet
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  supplier         Supplier?          @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  transactions     StockTransaction[]
+  inkUsages        InkUsage[]
+  materialIssues   MaterialIssue[]
+  materialReturns  MaterialReturn[]
+  purchaseItems    PurchaseItem[]
+}
+
+model StockTransaction {
+  id                 String    @id @default(uuid())
+  transactionNumber  String    @unique
+  inventoryItemId    String
+  type               String    // OPENING_BALANCE, PURCHASE_RECEIPT, ISSUE_TO_PRODUCTION, RETURN_FROM_PRODUCTION, SALE, DAMAGE, WASTAGE, ADJUSTMENT, TRANSFER, STOCK_COUNT_CORRECTION
+  quantity           Float     // Positive for inbound/returns, negative for outbound/issues
+  unitCost           Float     @default(0)
+  balanceAfter       Float
+  referenceType      String?   // JOB, PURCHASE, PRODUCTION, MANUAL
+  referenceId        String?
+  jobId              String?
+  notes              String?
+  reason             String?   // Required for adjustments/wastage
+  createdById        String?
+  approvedById       String?
+  isApproved         Boolean   @default(true) // Adjustments may require approval
+  createdAt          DateTime  @default(now())
+
+  inventoryItem      InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Restrict)
+  job                Job?          @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  createdBy          User?         @relation("TransactionCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  approvedBy         User?         @relation("TransactionApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+}
+
+model InkUsage {
+  id               String    @id @default(uuid())
+  date             DateTime  @default(now())
+  jobId            String?
+  inventoryItemId  String
+  color            String
+  brand            String?
+  inkType          String?   // DTF, Plastisol, Water-based, Sublimation, Solvent, UV
+  quantityUsed     Float     // in ml / grams
+  quantityWasted   Float     @default(0)
+  unitOfMeasure    String    @default("ml")
+  operatorId       String?
+  reason           String    @default("CUSTOMER_PRODUCTION") // CUSTOMER_PRODUCTION, TEST_PRINT, CLEANING, SPILLAGE, FAILED_PRINT, OTHER
+  notes            String?
+  createdAt        DateTime  @default(now())
+
+  job              Job?          @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  inventoryItem    InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Restrict)
+  operator         User?         @relation("InkOperator", fields: [operatorId], references: [id], onDelete: SetNull)
+}
+
+model MaterialIssue {
+  id               String    @id @default(uuid())
+  issueNumber      String    @unique
+  jobId            String
+  inventoryItemId  String
+  quantityIssued   Float
+  date             DateTime  @default(now())
+  issuedById       String?
+  receivedById     String?
+  notes            String?
+  createdAt        DateTime  @default(now())
+
+  job              Job           @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  inventoryItem    InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Restrict)
+  issuedBy         User?         @relation("MaterialIssuer", fields: [issuedById], references: [id], onDelete: SetNull)
+  receivedBy       User?         @relation("MaterialReceiver", fields: [receivedById], references: [id], onDelete: SetNull)
+}
+
+model MaterialReturn {
+  id               String    @id @default(uuid())
+  returnNumber     String    @unique
+  jobId            String
+  inventoryItemId  String
+  quantityReturned Float
+  date             DateTime  @default(now())
+  returnedById     String?
+  receivedById     String?
+  notes            String?
+  createdAt        DateTime  @default(now())
+
+  job              Job           @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  inventoryItem    InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Restrict)
+  returnedBy       User?         @relation("MaterialReturner", fields: [returnedById], references: [id], onDelete: SetNull)
+  receivedBy       User?         @relation("MaterialReturnReceiver", fields: [receivedById], references: [id], onDelete: SetNull)
+}
+
+model Supplier {
+  id               String    @id @default(uuid())
+  supplierCode     String    @unique
+  name             String
+  contactPerson    String?
+  phone            String
+  email            String?
+  address          String?
+  taxNumber        String?
+  productsSupplied String?
+  paymentTerms     String?   // Net 30, COD, Immediate, 50% Advance
+  notes            String?
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  inventoryItems   InventoryItem[]
+  purchases        Purchase[]
+}
+
+model Purchase {
+  id                 String    @id @default(uuid())
+  purchaseNumber     String    @unique
+  supplierId         String
+  purchaseDate       DateTime  @default(now())
+  expectedPaymentDate DateTime?
+  totalCost          Float     @default(0)
+  amountPaid         Float     @default(0)
+  balanceDue         Float     @default(0)
+  paymentStatus      String    @default("UNPAID") // UNPAID, PARTIALLY_PAID, PAID
+  status             String    @default("RECEIVED") // ORDERED, RECEIVED, CANCELLED
+  notes              String?
+  receivedById       String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  supplier           Supplier       @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  receivedBy         User?          @relation("PurchaseReceiver", fields: [receivedById], references: [id], onDelete: SetNull)
+  items              PurchaseItem[]
+}
+
+model PurchaseItem {
+  id              String    @id @default(uuid())
+  purchaseId      String
+  inventoryItemId String
+  quantity        Float
+  unitCost        Float
+  totalCost       Float
+  createdAt       DateTime  @default(now())
+
+  purchase        Purchase      @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Restrict)
+}
+
+model Payment {
+  id             String    @id @default(uuid())
+  paymentNumber  String    @unique
+  jobId          String
+  amount         Float
+  paymentDate    DateTime  @default(now())
+  paymentMethod  String    @default("CASH") // CASH, BANK_TRANSFER, MOBILE_MONEY, CREDIT_CARD, CHEQUE
+  reference      String?
+  paymentStatus  String    @default("COMPLETED") // COMPLETED, REFUNDED
+  notes          String?
+  recordedById   String?
+  createdAt      DateTime  @default(now())
+
+  job            Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  recordedBy     User?     @relation("PaymentRecorder", fields: [recordedById], references: [id], onDelete: SetNull)
+}
+
+model AuditLog {
+  id         String    @id @default(uuid())
+  userId     String?
+  action     String    // CREATE, UPDATE, DELETE, STATUS_CHANGE, STOCK_ADJUST, OVERRIDE
+  entity     String    // Job, Customer, Production, Inventory, Payment, User
+  entityId   String?
+  details    String?   // JSON or text summary
+  ipAddress  String?
+  createdAt  DateTime  @default(now())
+
+  user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model SystemSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+}
