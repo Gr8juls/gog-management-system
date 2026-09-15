@@ -1,9 +1,11 @@
 # Production Dockerfile for GOG Management System
 FROM node:20-alpine AS base
 
+# Install required shared libraries for Prisma and Node on Alpine
+RUN apk add --no-cache libc6-compat openssl
+
 # Install dependencies only when needed
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json package-lock.json ./
