@@ -210,29 +210,29 @@ export default function JobsPage() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Jobs & Orders Workflow</h1>
-          <p className="text-xs text-slate-400 mt-1">Manage production tickets, multi-item garment specs & status progression</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Jobs & Orders Workflow</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Manage production tickets, multi-item garment specs & status progression</p>
         </div>
         <button
           onClick={() => {
             setIsCreateOpen(true);
             setFormError('');
           }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-cyan-500/20 transition-all"
+          className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-cyan-500/20 transition-all self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Create New Job Ticket</span>
         </button>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center gap-2 bg-slate-900 p-2 rounded-2xl border border-slate-800 text-xs">
+      {/* Filter Tabs (Horizontal swipe on mobile) */}
+      <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-900 p-1.5 sm:p-2 rounded-xl sm:rounded-2xl border border-slate-800 text-xs overflow-x-auto no-scrollbar whitespace-nowrap -mx-1 px-2">
         <button
           onClick={() => setStatusFilter('')}
-          className={`px-3 py-1.5 rounded-xl font-medium transition-all ${
-            statusFilter === '' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:text-white'
+          className={`px-3 py-1.5 rounded-lg sm:rounded-xl font-medium transition-all flex-shrink-0 ${
+            statusFilter === '' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-semibold' : 'text-slate-400 hover:text-white'
           }`}
         >
           All Statuses ({jobs.length})
@@ -241,8 +241,8 @@ export default function JobsPage() {
           <button
             key={st}
             onClick={() => setStatusFilter(st)}
-            className={`px-3 py-1.5 rounded-xl font-medium transition-all ${
-              statusFilter === st ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:text-white'
+            className={`px-3 py-1.5 rounded-lg sm:rounded-xl font-medium transition-all flex-shrink-0 ${
+              statusFilter === st ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-semibold' : 'text-slate-400 hover:text-white'
             }`}
           >
             {st.replace('_', ' ')}
@@ -251,9 +251,9 @@ export default function JobsPage() {
       </div>
 
       {/* Jobs Table */}
-      <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+      <div className="rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
+        <div className="overflow-x-auto -mx-1 px-1">
+          <table className="w-full min-w-[760px] text-left text-xs">
             <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
                 <th className="py-3 px-4">Job Number</th>
@@ -473,66 +473,70 @@ export default function JobsPage() {
               </button>
             </div>
 
-            <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+            <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
               {formData.items.map((item, idx) => (
-                <div key={idx} className="p-3 bg-slate-950 rounded-xl border border-slate-800 grid grid-cols-12 gap-2 items-center text-xs">
-                  <div className="col-span-4">
+                <div key={idx} className="p-3 bg-slate-950 rounded-xl border border-slate-800 flex flex-col sm:grid sm:grid-cols-12 gap-2 sm:items-center text-xs">
+                  <div className="w-full sm:col-span-4">
                     <input
                       type="text"
-                      placeholder="Item Description"
+                      placeholder="Item Description *"
                       value={item.itemDescription}
                       onChange={(e) => handleItemChange(idx, 'itemDescription', e.target.value)}
-                      className="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white"
+                      className="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500"
                       required
                     />
                   </div>
-                  <div className="col-span-2">
-                    <input
-                      type="text"
-                      placeholder="Size (e.g. M)"
-                      value={item.size}
-                      onChange={(e) => handleItemChange(idx, 'size', e.target.value)}
-                      className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white text-center"
-                    />
+                  <div className="grid grid-cols-4 sm:contents gap-2">
+                    <div className="sm:col-span-2">
+                      <input
+                        type="text"
+                        placeholder="Size (M)"
+                        value={item.size}
+                        onChange={(e) => handleItemChange(idx, 'size', e.target.value)}
+                        className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white text-center placeholder-slate-500"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <input
+                        type="text"
+                        placeholder="Color"
+                        value={item.color}
+                        onChange={(e) => handleItemChange(idx, 'color', e.target.value)}
+                        className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white text-center placeholder-slate-500"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <input
+                        type="number"
+                        placeholder="Qty"
+                        min={1}
+                        value={item.quantityOrdered}
+                        onChange={(e) => handleItemChange(idx, 'quantityOrdered', parseInt(e.target.value) || 0)}
+                        className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white text-center"
+                        required
+                      />
+                    </div>
+                    <div className="sm:col-span-1">
+                      <input
+                        type="number"
+                        placeholder="Price"
+                        step="0.1"
+                        min={0}
+                        value={item.unitPrice}
+                        onChange={(e) => handleItemChange(idx, 'unitPrice', parseFloat(e.target.value) || 0)}
+                        className="w-full px-1.5 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white text-center"
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="col-span-2">
-                    <input
-                      type="text"
-                      placeholder="Color (e.g. Black)"
-                      value={item.color}
-                      onChange={(e) => handleItemChange(idx, 'color', e.target.value)}
-                      className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white text-center"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <input
-                      type="number"
-                      placeholder="Qty"
-                      min={1}
-                      value={item.quantityOrdered}
-                      onChange={(e) => handleItemChange(idx, 'quantityOrdered', parseInt(e.target.value) || 0)}
-                      className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white text-center"
-                      required
-                    />
-                  </div>
-                  <div className="col-span-1">
-                    <input
-                      type="number"
-                      placeholder="Price"
-                      step="0.1"
-                      min={0}
-                      value={item.unitPrice}
-                      onChange={(e) => handleItemChange(idx, 'unitPrice', parseFloat(e.target.value) || 0)}
-                      className="w-full px-1.5 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white text-center"
-                      required
-                    />
-                  </div>
-                  <div className="col-span-1 text-center">
+                  <div className="sm:col-span-1 flex justify-end sm:justify-center">
                     <button
                       type="button"
                       onClick={() => handleRemoveItemRow(idx)}
                       disabled={formData.items.length <= 1}
                       className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 disabled:opacity-30"
+                      title="Remove line item"
+                      aria-label="Remove item row"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>

@@ -194,21 +194,21 @@ export default function InventoryPage() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Inventory & Stock Ledger</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Inventory & Stock Ledger</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
             Track blank garments by size and color, inks, films, stock transactions & reorder levels
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={() => {
               setIsItemModalOpen(true);
               setFormError('');
             }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-cyan-500/20 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-cyan-500/20 transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Add Catalog Item</span>
@@ -217,51 +217,51 @@ export default function InventoryPage() {
       </div>
 
       {/* KPI Overview Pills */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 text-xs">
+        <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
           <div>
-            <span className="text-slate-400">Total Items in Catalog</span>
-            <div className="text-xl font-bold text-white mt-0.5">{items.length} SKUs</div>
+            <span className="text-[11px] sm:text-xs text-slate-400">Total Items in Catalog</span>
+            <div className="text-lg sm:text-xl font-bold text-white mt-0.5">{items.length} SKUs</div>
           </div>
-          <Package className="w-6 h-6 text-cyan-400" />
+          <Package className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400 flex-shrink-0" />
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+        <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
           <div>
-            <span className="text-slate-400">Low-Stock Alerts</span>
-            <div className="text-xl font-bold text-amber-400 mt-0.5">{lowStockCount} items</div>
+            <span className="text-[11px] sm:text-xs text-slate-400">Low-Stock Alerts</span>
+            <div className="text-lg sm:text-xl font-bold text-amber-400 mt-0.5">{lowStockCount} items</div>
           </div>
-          <AlertTriangle className="w-6 h-6 text-amber-400" />
+          <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 flex-shrink-0" />
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+        <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
           <div>
-            <span className="text-slate-400">T-Shirt Stock</span>
-            <div className="text-xl font-bold text-emerald-400 mt-0.5">
+            <span className="text-[11px] sm:text-xs text-slate-400">T-Shirt Stock</span>
+            <div className="text-lg sm:text-xl font-bold text-emerald-400 mt-0.5">
               {tshirtItems.reduce((s, i) => s + i.currentStock, 0)} units
             </div>
           </div>
-          <Shirt className="w-6 h-6 text-emerald-400" />
+          <Shirt className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0" />
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+        <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between">
           <div>
-            <span className="text-slate-400">Inventory Valuation</span>
-            <div className="text-xl font-bold text-white mt-0.5">
+            <span className="text-[11px] sm:text-xs text-slate-400">Inventory Valuation</span>
+            <div className="text-lg sm:text-xl font-bold text-white mt-0.5">
               ${totalInventoryValuation.toFixed(2)}
             </div>
           </div>
-          <DollarSign className="w-6 h-6 text-cyan-400" />
+          <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400 flex-shrink-0" />
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 text-xs">
+      {/* Navigation Tabs (Horizontal swipe on mobile) */}
+      <div className="flex items-center gap-1.5 sm:gap-2 border-b border-slate-800 pb-2 text-xs overflow-x-auto no-scrollbar whitespace-nowrap -mx-1 px-1">
         <button
           onClick={() => setActiveTab('catalog')}
-          className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
+          className={`px-3 py-1.5 rounded-lg font-medium transition-all flex-shrink-0 ${
             activeTab === 'catalog'
-              ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
+              ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-semibold'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -269,9 +269,9 @@ export default function InventoryPage() {
         </button>
         <button
           onClick={() => setActiveTab('tshirts')}
-          className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
+          className={`px-3 py-1.5 rounded-lg font-medium transition-all flex-shrink-0 ${
             activeTab === 'tshirts'
-              ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
+              ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-semibold'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -279,9 +279,9 @@ export default function InventoryPage() {
         </button>
         <button
           onClick={() => setActiveTab('transactions')}
-          className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
+          className={`px-3 py-1.5 rounded-lg font-medium transition-all flex-shrink-0 ${
             activeTab === 'transactions'
-              ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30'
+              ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-semibold'
               : 'text-slate-400 hover:text-white'
           }`}
         >
@@ -333,8 +333,9 @@ export default function InventoryPage() {
           </div>
 
           {/* Catalog Table */}
-          <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-            <table className="w-full text-left text-xs">
+          <div className="rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
+            <div className="overflow-x-auto -mx-1 px-1">
+              <table className="w-full min-w-[760px] text-left text-xs">
               <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">SKU / Code</th>
@@ -409,6 +410,7 @@ export default function InventoryPage() {
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       )}
@@ -450,8 +452,9 @@ export default function InventoryPage() {
 
       {/* Main Tab 3: Stock Transaction History */}
       {activeTab === 'transactions' && (
-        <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-          <table className="w-full text-left text-xs">
+        <div className="rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
+          <div className="overflow-x-auto -mx-1 px-1">
+            <table className="w-full min-w-[760px] text-left text-xs">
             <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
                 <th className="py-3 px-4">Transaction ID</th>
@@ -502,6 +505,7 @@ export default function InventoryPage() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
       )}
 

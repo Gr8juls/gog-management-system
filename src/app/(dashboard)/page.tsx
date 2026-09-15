@@ -66,7 +66,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Top Header & Date Filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#00adef]/15 text-[#00adef] border border-[#00adef]/30 uppercase tracking-wider">
@@ -75,27 +75,27 @@ export default function DashboardPage() {
             <span className="text-slate-600">•</span>
             <span className="text-xs text-slate-400 font-medium">Operations Center</span>
           </div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">Operations & Production Hub</h1>
-          <p className="text-xs text-slate-400 mt-0.5">Real-time control of branding jobs, garment production runs, ink consumption & financials</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Operations & Production Hub</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Real-time control of branding jobs, garment production runs, ink consumption & financials</p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Quick Actions */}
           <Link
             href="/jobs"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#00adef] via-[#006eb9] to-[#005291] hover:from-[#25bfff] hover:to-[#005da5] text-xs font-semibold text-white shadow-md shadow-[#00adef]/20 transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-gradient-to-r from-[#00adef] via-[#006eb9] to-[#005291] hover:from-[#25bfff] hover:to-[#005da5] text-xs font-semibold text-white shadow-md shadow-[#00adef]/20 transition-all"
           >
             <PlusCircle className="w-3.5 h-3.5" />
             <span>New Job</span>
           </Link>
 
           {/* Date Filter */}
-          <div className="flex items-center bg-[#0c1a30] border border-[#173256] rounded-xl p-1 text-xs">
+          <div className="flex items-center bg-[#0c1a30] border border-[#173256] rounded-xl p-0.5 sm:p-1 text-xs">
             {['today', 'thisWeek', 'thisMonth'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setRange(tab)}
-                className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
                   range === tab
                     ? 'bg-[#00adef]/20 text-[#38c8ff] border border-[#00adef]/40 font-semibold shadow-sm'
                     : 'text-slate-400 hover:text-white'
@@ -108,8 +108,9 @@ export default function DashboardPage() {
 
           <button
             onClick={fetchDashboard}
-            className="p-2 rounded-xl bg-[#0c1a30] border border-[#173256] text-slate-400 hover:text-[#00adef] transition-colors"
+            className="p-1.5 sm:p-2 rounded-xl bg-[#0c1a30] border border-[#173256] text-slate-400 hover:text-[#00adef] transition-colors"
             title="Refresh metrics"
+            aria-label="Refresh dashboard metrics"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           </button>
@@ -117,7 +118,7 @@ export default function DashboardPage() {
       </div>
 
       {/* KPI Cards Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-2.5 sm:gap-4">
         <StatsCard
           title="Received Today"
           value={metrics.jobsReceivedToday ?? 0}
@@ -288,11 +289,11 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Jobs & Stock Transactions Side-by-Side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Recent Jobs Table */}
-        <div className="p-5 rounded-2xl bg-[#0c1a30]/85 border border-[#173256]">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+        <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#0c1a30]/85 border border-[#173256]">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
               <Briefcase className="w-4 h-4 text-[#00adef]" />
               <span>Recent Printing Jobs</span>
             </h3>
@@ -301,8 +302,8 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto -mx-1 px-1">
+            <table className="w-full min-w-[460px] text-left text-xs">
               <thead className="text-[11px] uppercase text-slate-400 bg-[#060e1c] border-b border-[#173256]">
                 <tr>
                   <th className="py-2.5 px-3">Job Number</th>
@@ -345,9 +346,9 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Stock Movements Table */}
-        <div className="p-5 rounded-2xl bg-[#0c1a30]/85 border border-[#173256]">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+        <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#0c1a30]/85 border border-[#173256]">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <h3 className="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
               <Shirt className="w-4 h-4 text-emerald-400" />
               <span>Recent Stock Movements</span>
             </h3>
@@ -356,8 +357,8 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto -mx-1 px-1">
+            <table className="w-full min-w-[460px] text-left text-xs">
               <thead className="text-[11px] uppercase text-slate-400 bg-[#060e1c] border-b border-[#173256]">
                 <tr>
                   <th className="py-2.5 px-3">Item / SKU</th>

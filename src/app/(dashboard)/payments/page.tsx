@@ -93,10 +93,10 @@ export default function PaymentsPage() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Payments & Receipts Ledger</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Payments & Receipts Ledger</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
             Record customer deposits, final settlements & track outstanding accounts receivable
           </p>
         </div>
@@ -114,7 +114,7 @@ export default function PaymentsPage() {
       </div>
 
       {/* Summary KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
         <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
           <span className="text-slate-400">Total Collected Payments</span>
           <div className="text-2xl font-extrabold text-emerald-400 mt-1 font-mono">
@@ -143,7 +143,7 @@ export default function PaymentsPage() {
       {/* Payments Table */}
       <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full min-w-[720px] text-left text-xs">
             <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
                 <th className="py-3 px-4">Receipt Number</th>

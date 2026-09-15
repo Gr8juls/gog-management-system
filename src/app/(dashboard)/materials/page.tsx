@@ -139,15 +139,15 @@ export default function MaterialsPage() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Material Issue & Return Reconciliation</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Material Issue & Return Reconciliation</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
             Track planned vs issued vs consumed vs returned blank products with variance reporting
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => {
               setIsIssueOpen(true);

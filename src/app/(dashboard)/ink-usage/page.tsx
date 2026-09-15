@@ -125,10 +125,10 @@ export default function InkUsagePage() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Ink Tracking & Consumption</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Ink Tracking & Consumption</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
             Track milliliter consumption by job, test prints, cleaning cycles, spillage & wastage
           </p>
         </div>
@@ -207,11 +207,12 @@ export default function InkUsagePage() {
 
       {/* Usage Logs Table */}
       <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-        <div className="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between">
+        <div className="px-4 sm:px-5 py-3.5 border-b border-slate-800 flex items-center justify-between gap-2">
           <h3 className="text-sm font-bold text-white">Ink Usage Ledger</h3>
-          <span className="text-xs text-slate-400">All job consumption and purge logs</span>
+          <span className="text-xs text-slate-400 hidden sm:block">All job consumption and purge logs</span>
         </div>
-        <table className="w-full text-left text-xs">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[700px] text-left text-xs">
           <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
             <tr>
               <th className="py-3 px-4">Date</th>
@@ -268,6 +269,7 @@ export default function InkUsagePage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Record Usage Modal */}

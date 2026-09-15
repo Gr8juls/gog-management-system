@@ -165,15 +165,15 @@ export default function PurchasesPage() {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Suppliers & Purchase Receiving</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Suppliers & Purchase Receiving</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
             Receive purchase orders, automatically update inventory stock & track vendor payables
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => {
               setIsSupplierModalOpen(true);
@@ -225,7 +225,7 @@ export default function PurchasesPage() {
       {activeTab === 'purchases' && (
         <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[700px] text-left text-xs">
               <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">PO Number</th>
@@ -334,7 +334,7 @@ export default function PurchasesPage() {
         )}
 
         <form onSubmit={handleSavePurchase} className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">Supplier *</label>
               <select

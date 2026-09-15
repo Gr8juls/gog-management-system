@@ -145,10 +145,10 @@ export default function DailyProductionPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Daily Production Floor</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Daily Production Floor</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
             Fast logging for operators, completed counts, scrap, damage & quality control
           </p>
         </div>
@@ -158,7 +158,7 @@ export default function DailyProductionPage() {
             setFormError('');
             setRequiresApproval(false);
           }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-semibold text-xs shadow-lg shadow-amber-500/20 transition-all"
+          className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-semibold text-xs shadow-lg shadow-amber-500/20 transition-all self-start sm:self-auto"
         >
           <PlayCircle className="w-4 h-4" />
           <span>Log Daily Production Run</span>
@@ -166,15 +166,17 @@ export default function DailyProductionPage() {
       </div>
 
       {/* Filter Bar */}
-      <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-wrap items-center gap-3">
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-slate-400" />
-          <input
-            type="date"
-            value={dateFilter}
-            onChange={(e) => setDateFilter(e.target.value)}
-            className="px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white"
-          />
+      <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 flex flex-wrap items-center gap-2.5 sm:gap-3">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+            <Calendar className="w-4 h-4 text-slate-400 flex-shrink-0" />
+            <input
+              type="date"
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white flex-1 sm:flex-initial"
+            />
+          </div>
           {dateFilter && (
             <button
               onClick={() => setDateFilter('')}
@@ -188,7 +190,7 @@ export default function DailyProductionPage() {
         <select
           value={methodFilter}
           onChange={(e) => setMethodFilter(e.target.value)}
-          className="px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-slate-300"
+          className="px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-slate-300 w-full sm:w-auto"
         >
           <option value="">All Production Methods</option>
           <option value="DTF">DTF</option>
@@ -200,9 +202,9 @@ export default function DailyProductionPage() {
       </div>
 
       {/* Production Runs Log Table */}
-      <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+      <div className="rounded-xl sm:rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
+        <div className="overflow-x-auto -mx-1 px-1">
+          <table className="w-full min-w-[850px] text-left text-xs">
             <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
                 <th className="py-3 px-4">Date</th>

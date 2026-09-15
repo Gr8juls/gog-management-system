@@ -17,15 +17,22 @@ import {
   UserCheck,
   Settings,
   LogOut,
-  Sparkles,
+  X,
 } from 'lucide-react';
 
 interface SidebarProps {
   userRole?: string;
   userName?: string;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export default function Sidebar({ userRole = 'ADMIN', userName = 'User' }: SidebarProps) {
+export default function Sidebar({
+  userRole = 'ADMIN',
+  userName = 'User',
+  isOpen = false,
+  onClose,
+}: SidebarProps) {
   const pathname = usePathname();
 
   const navigation = [
@@ -68,67 +75,95 @@ export default function Sidebar({ userRole = 'ADMIN', userName = 'User' }: Sideb
   };
 
   return (
-    <aside className="w-64 bg-[#081222] border-r border-[#142742] flex flex-col h-screen fixed left-0 top-0 z-30 transition-all">
-      {/* Brand Header with Authentic Logo */}
-      <div className="p-4 border-b border-[#142742] bg-[#060e1c]/90 flex items-center gap-3">
-        <div className="relative w-11 h-11 flex-shrink-0 flex items-center justify-center p-1 rounded-xl bg-gradient-to-br from-[#0c1f3d] to-[#081528] border border-[#00adef]/30 shadow-lg shadow-[#00adef]/15">
-          <img
-            src="/logo-icon.png"
-            alt="GOG TECH HOUSE Logo"
-            className="w-9 h-9 object-contain drop-shadow-[0_0_8px_rgba(0,173,239,0.5)]"
-          />
-        </div>
-        <div className="overflow-hidden">
-          <h1 className="font-extrabold text-sm tracking-wide text-white flex items-center gap-1.5 leading-tight">
-            GOG <span className="text-[#00adef]">TECH HOUSE</span>
-          </h1>
-          <p className="text-[10px] text-slate-400 font-medium tracking-wider uppercase mt-0.5">Production & Stock</p>
-        </div>
-      </div>
+    <>
+      {/* Mobile Backdrop Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
 
-      {/* Role Pill Banner */}
-      <div className="px-4 py-2.5 bg-[#050b16] border-b border-[#142742] flex items-center justify-between">
-        <div className="flex flex-col">
-          <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Role</span>
-          <span className="text-xs font-medium text-slate-200 truncate max-w-[130px]">{userName}</span>
+      {/* Sidebar Drawer */}
+      <aside
+        className={`w-64 bg-[#081222] border-r border-[#142742] flex flex-col h-screen fixed left-0 top-0 z-50 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+          isOpen ? 'translate-x-0 shadow-2xl shadow-[#00adef]/10' : '-translate-x-full'
+        }`}
+      >
+        {/* Brand Header with Authentic Logo */}
+        <div className="p-4 border-b border-[#142742] bg-[#060e1c]/90 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative w-10 h-10 flex-shrink-0 flex items-center justify-center p-1 rounded-xl bg-gradient-to-br from-[#0c1f3d] to-[#081528] border border-[#00adef]/30 shadow-lg shadow-[#00adef]/15">
+              <img
+                src="/logo-icon.png"
+                alt="GOG TECH HOUSE Logo"
+                className="w-8 h-8 object-contain drop-shadow-[0_0_8px_rgba(0,173,239,0.5)]"
+              />
+            </div>
+            <div className="overflow-hidden">
+              <h1 className="font-extrabold text-sm tracking-wide text-white flex items-center gap-1.5 leading-tight">
+                GOG <span className="text-[#00adef]">TECH HOUSE</span>
+              </h1>
+              <p className="text-[10px] text-slate-400 font-medium tracking-wider uppercase mt-0.5">Production & Stock</p>
+            </div>
+          </div>
+
+          {/* Close button on mobile */}
+          <button
+            onClick={onClose}
+            className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#0f223d] lg:hidden transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${getRoleBadgeColor(userRole)}`}>
-          {userRole}
-        </span>
-      </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-        {allowedNav.map((item) => {
-          const isActive = pathname === item.href;
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                isActive
-                  ? 'bg-gradient-to-r from-[#00adef]/20 via-[#006eb9]/10 to-transparent text-[#38c8ff] border-l-2 border-[#00adef] shadow-sm shadow-[#00adef]/10 font-semibold'
-                  : 'text-slate-300 hover:text-white hover:bg-[#0d1d36]/70 hover:border-l-2 hover:border-[#00adef]/40'
-              }`}
-            >
-              <Icon className={`w-4 h-4 ${isActive ? 'text-[#00adef]' : 'text-slate-400'}`} />
-              <span>{item.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
+        {/* Role Pill Banner */}
+        <div className="px-4 py-2.5 bg-[#050b16] border-b border-[#142742] flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Active Role</span>
+            <span className="text-xs font-medium text-slate-200 truncate max-w-[130px]">{userName}</span>
+          </div>
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${getRoleBadgeColor(userRole)}`}>
+            {userRole}
+          </span>
+        </div>
 
-      {/* Footer / Logout */}
-      <div className="p-3 border-t border-[#142742] bg-[#050b16]">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 bg-red-950/30 hover:bg-red-900/40 border border-red-900/40 rounded-lg transition-colors"
-        >
-          <LogOut className="w-3.5 h-3.5" />
-          <span>Sign Out</span>
-        </button>
-      </div>
-    </aside>
+        {/* Navigation Links */}
+        <nav className="flex-1 overflow-y-auto p-3 space-y-1">
+          {allowedNav.map((item) => {
+            const isActive = pathname === item.href;
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={onClose}
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                  isActive
+                    ? 'bg-gradient-to-r from-[#00adef]/20 via-[#006eb9]/10 to-transparent text-[#38c8ff] border-l-2 border-[#00adef] shadow-sm shadow-[#00adef]/10 font-semibold'
+                    : 'text-slate-300 hover:text-white hover:bg-[#0d1d36]/70 hover:border-l-2 hover:border-[#00adef]/40'
+                }`}
+              >
+                <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-[#00adef]' : 'text-slate-400'}`} />
+                <span className="truncate">{item.name}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Footer / Logout */}
+        <div className="p-3 border-t border-[#142742] bg-[#050b16]">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-red-400 hover:text-red-300 bg-red-950/30 hover:bg-red-900/40 border border-red-900/40 rounded-lg transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

@@ -72,7 +72,7 @@ export default function LoginPage() {
         </div>
 
         {/* Login Card */}
-        <div className="glass-panel p-8 rounded-2xl shadow-2xl border border-[#173256] bg-[#09162a]/90">
+        <div className="glass-panel p-5 sm:p-8 rounded-xl sm:rounded-2xl shadow-2xl border border-[#173256] bg-[#09162a]/90">
           <h2 className="text-lg font-bold text-white mb-1">Sign In to Workspace</h2>
           <p className="text-xs text-slate-400 mb-6">Enter your credentials or pick a demo role below</p>
 

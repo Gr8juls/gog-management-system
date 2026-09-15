@@ -95,15 +95,15 @@ export default function ReportsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 no-print">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Executive & Operational Reports</h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Executive & Operational Reports</h1>
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
             Export operational statistics, ink consumption, T-shirt movements & gross profit margins
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={printReport}
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#0c1a30] hover:bg-[#112544] text-slate-200 font-semibold text-xs border border-[#173256] transition-all"
@@ -144,8 +144,8 @@ export default function ReportsPage() {
       </div>
 
       {/* Date Filter Bar */}
-      <div className="p-4 rounded-2xl bg-[#0c1a30] border border-[#173256] flex flex-wrap items-center justify-between gap-3 text-xs no-print">
-        <div className="flex items-center gap-3">
+      <div className="p-3 sm:p-4 rounded-2xl bg-[#0c1a30] border border-[#173256] flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-3 text-xs no-print">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <span className="text-slate-400 flex items-center gap-1.5 font-medium">
             <Calendar className="w-3.5 h-3.5 text-[#00adef]" />
             <span>Date Range:</span>
@@ -154,18 +154,18 @@ export default function ReportsPage() {
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="px-3 py-1.5 bg-[#060e1c] border border-[#173256] rounded-xl text-xs text-white"
+            className="px-3 py-1.5 bg-[#060e1c] border border-[#173256] rounded-xl text-xs text-white flex-1 sm:flex-initial min-w-0"
           />
           <span className="text-slate-500">to</span>
           <input
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            className="px-3 py-1.5 bg-[#060e1c] border border-[#173256] rounded-xl text-xs text-white"
+            className="px-3 py-1.5 bg-[#060e1c] border border-[#173256] rounded-xl text-xs text-white flex-1 sm:flex-initial min-w-0"
           />
           <button
             onClick={fetchReport}
-            className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#00adef] to-[#006eb9] hover:from-[#25bfff] hover:to-[#005da5] text-white font-semibold shadow-sm"
+            className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#00adef] to-[#006eb9] hover:from-[#25bfff] hover:to-[#005da5] text-white font-semibold shadow-sm whitespace-nowrap"
           >
             Apply Date Filter
           </button>
@@ -221,7 +221,7 @@ export default function ReportsPage() {
         <div className="overflow-x-auto">
           {/* 1. Daily Production Report */}
           {reportType === 'daily-production' && (
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[900px] text-left text-xs">
               <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">Date</th>
@@ -263,7 +263,7 @@ export default function ReportsPage() {
 
           {/* 2. Ink Usage Report */}
           {reportType === 'ink-usage' && (
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[700px] text-left text-xs">
               <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">Date</th>
@@ -295,7 +295,7 @@ export default function ReportsPage() {
 
           {/* 3. T-shirt Report */}
           {reportType === 't-shirt' && (
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[700px] text-left text-xs">
               <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">SKU</th>
@@ -329,7 +329,7 @@ export default function ReportsPage() {
 
           {/* 4. Inventory Valuation Report */}
           {reportType === 'inventory' && (
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[600px] text-left text-xs">
               <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">SKU</th>
@@ -359,7 +359,7 @@ export default function ReportsPage() {
 
           {/* 5. Job Report */}
           {reportType === 'jobs' && (
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[700px] text-left text-xs">
               <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">Job Number</th>
@@ -397,7 +397,7 @@ export default function ReportsPage() {
 
           {/* 6. Profitability Report */}
           {reportType === 'profitability' && (
-            <table className="w-full text-left text-xs">
+            <table className="w-full min-w-[800px] text-left text-xs">
               <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">Job Ticket</th>

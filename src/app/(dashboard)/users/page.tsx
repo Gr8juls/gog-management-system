@@ -89,7 +89,8 @@ export default function UsersPage() {
 
       {/* Users Table */}
       <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-        <table className="w-full text-left text-xs">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[560px] text-left text-xs">
           <thead className="bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
             <tr>
               <th className="py-3 px-4">Staff Member</th>
@@ -130,6 +131,7 @@ export default function UsersPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Add User Modal */}

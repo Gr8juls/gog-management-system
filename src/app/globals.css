@@ -33,6 +33,16 @@ body {
   background: #00adef;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 /* Brand Glassmorphism & Panel Utilities */
 .glass-panel {
   background: rgba(12, 26, 48, 0.75);
