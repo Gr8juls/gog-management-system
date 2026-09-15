@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: gog-management-system
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        value: mongodb+srv://rubajul_db_user:wX4C%21M%3AEHzmTy34@cluster0.enkqgtm.mongodb.net/gog_management_system?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000

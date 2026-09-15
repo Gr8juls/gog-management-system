@@ -32,6 +32,7 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL="mongodb+srv://rubajul_db_user:wX4C%21M%3AEHzmTy34@cluster0.enkqgtm.mongodb.net/gog_management_system?retryWrites=true&w=majority&appName=Cluster0"
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

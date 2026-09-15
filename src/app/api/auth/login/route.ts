@@ -70,11 +70,12 @@ export async function POST(req: NextRequest) {
       error.message?.includes('Server selection timeout') ||
       error.message?.includes('No available servers') ||
       error.message?.includes('timed out') ||
+      error.message?.includes('Environment variable not found') ||
       error.code === 'P2010' ||
       error.code === 'P1001';
 
     const errorMessage = isDbConnectionError
-      ? 'Database connection timed out: Unable to reach MongoDB on port 27017. Please check your MongoDB Atlas IP whitelist or local MongoDB service.'
+      ? 'Database connection error: Unable to reach MongoDB. Please check your MongoDB Atlas IP whitelist (0.0.0.0/0) or database service.'
       : (error.message || 'Internal server error');
 
     return NextResponse.json(
