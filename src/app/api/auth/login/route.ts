@@ -64,8 +64,19 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     console.error('Login error:', error);
+    const isDbConnectionError =
+      error.message?.includes('Server selection timeout') ||
+      error.message?.includes('No available servers') ||
+      error.message?.includes('timed out') ||
+      error.code === 'P2010' ||
+      error.code === 'P1001';
+
+    const errorMessage = isDbConnectionError
+      ? 'Database connection timed out: Unable to reach MongoDB on port 27017. Please check your MongoDB Atlas IP whitelist or local MongoDB service.'
+      : (error.message || 'Internal server error');
+
     return NextResponse.json(
-      { error: 'Internal server error', message: error.message },
+      { error: errorMessage, details: error.message },
       { status: 500 }
     );
   }

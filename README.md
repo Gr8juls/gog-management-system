@@ -37,7 +37,7 @@ The system replaces manual spreadsheets with a relational digital ledger that de
 
 - **Framework**: Next.js 14+ (App Router) with React 18, TypeScript
 - **Styling**: Tailwind CSS with custom glassmorphism, responsive data tables, dark-slate theme
-- **Database & ORM**: Prisma ORM with SQLite for zero-config local run; switchable to PostgreSQL via `DATABASE_URL`
+- **Database & ORM**: Prisma ORM with MongoDB (local replica set `rs0` or MongoDB Atlas cloud)
 - **Authentication**: Role-based JWT session cookies with secure hashing via `bcryptjs`
 - **Validation**: Zod schema validation on both client and server API route handlers
 - **Icons & Visuals**: Lucide React
@@ -150,17 +150,25 @@ sequenceDiagram
    npm install
    ```
 
-3. **Initialize the Database**:
+3. **Start MongoDB**:
+   - **Local MongoDB**: Run `start-mongodb.bat` (or start `mongod` on port 27017 with `--replSet rs0`).
+   - If running for the first time, initialize the replica set:
+     ```bash
+     npm run replica:init
+     ```
+   - **MongoDB Atlas**: Configure your Atlas connection string in `.env`.
+
+4. **Initialize the Database**:
    ```bash
    npx prisma db push
    ```
 
-4. **Seed Demo Data & User Roles**:
+5. **Seed Demo Data & User Roles**:
    ```bash
    npm run seed
    ```
 
-5. **Start the Development Server**:
+6. **Start the Development Server**:
    ```bash
    npm run dev
    ```
