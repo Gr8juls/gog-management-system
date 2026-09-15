@@ -1,48 +1,53 @@
 # Production Dockerfile for GOG Management System
 FROM node:20-alpine AS base
 
-# Install required shared libraries for Prisma and Node on Alpine
+# Install required shared libraries for Prisma engine on Alpine
 RUN apk add --no-cache libc6-compat openssl
 
-# Install dependencies only when needed
+# ── Stage 1: Install dependencies ────────────────────────────────────────────
 FROM base AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Rebuild the source code only when needed
+# ── Stage 2: Build the application ───────────────────────────────────────────
 FROM base AS builder
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Generate Prisma Client & Build Next.js
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
+# DATABASE_URL is required only at runtime; provide a dummy value so
+# `prisma generate` succeeds and Next.js static analysis does not fail.
+ENV DATABASE_URL="mongodb://placeholder:27017/placeholder?directConnection=true"
+
 RUN npx prisma generate
 RUN npm run build
 
-# Production image, copy all the files and run next
+# ── Stage 3: Production runner ────────────────────────────────────────────────
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Copy Next.js standalone build output
 COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
 
 USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
-CMD ["npm", "start"]
+# Use the standalone server.js entry point
+CMD ["node", "server.js"]
