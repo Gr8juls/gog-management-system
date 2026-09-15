@@ -315,7 +315,7 @@ export default function JobsPage() {
                       <td className="py-3 px-4">
                         {job.totalAmount !== null ? (
                           <>
-                            <div className="font-bold text-white">${job.totalAmount?.toFixed(2)}</div>
+                            <div className="font-bold text-white">RWF {job.totalAmount?.toFixed(2)}</div>
                             <div className={`text-[10px] ${job.balanceDue > 0 ? 'text-amber-400 font-medium' : 'text-emerald-400'}`}>
                               Bal: ${job.balanceDue?.toFixed(2)}
                             </div>
@@ -550,7 +550,7 @@ export default function JobsPage() {
           <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
             <div>
               <span className="text-slate-400 block mb-1">Subtotal</span>
-              <span className="font-bold text-white text-sm">${subtotal.toFixed(2)}</span>
+              <span className="font-bold text-white text-sm">RWF {subtotal.toFixed(2)}</span>
             </div>
             <div>
               <label className="text-slate-400 block mb-1">Discount ($)</label>
@@ -694,15 +694,15 @@ export default function JobsPage() {
               <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex justify-between items-center text-xs">
                 <div>
                   <span className="text-slate-400">Total Job Quote: </span>
-                  <strong className="text-white text-sm">${selectedJob.totalAmount?.toFixed(2)}</strong>
+                  <strong className="text-white text-sm">RWF {selectedJob.totalAmount?.toFixed(2)}</strong>
                 </div>
                 <div>
                   <span className="text-slate-400">Deposit Received: </span>
-                  <strong className="text-emerald-400 text-sm">${selectedJob.depositPaid?.toFixed(2)}</strong>
+                  <strong className="text-emerald-400 text-sm">RWF {selectedJob.depositPaid?.toFixed(2)}</strong>
                 </div>
                 <div>
                   <span className="text-slate-400">Outstanding Balance: </span>
-                  <strong className="text-amber-400 text-sm">${selectedJob.balanceDue?.toFixed(2)}</strong>
+                  <strong className="text-amber-400 text-sm">RWF {selectedJob.balanceDue?.toFixed(2)}</strong>
                 </div>
               </div>
             )}

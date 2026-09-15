@@ -241,7 +241,7 @@ export default function CustomersPage() {
                 <div>
                   <div className="text-[10px] text-slate-400">Orders: <strong className="text-white">{c.totalOrders}</strong></div>
                   <div className="text-[11px] font-semibold text-slate-200">
-                    Balance: <span className={c.outstandingBalance > 0 ? 'text-amber-400' : 'text-emerald-400'}>${c.outstandingBalance?.toFixed(2)}</span>
+                    Balance: <span className={c.outstandingBalance > 0 ? 'text-amber-400' : 'text-emerald-400'}>RWF {c.outstandingBalance?.toFixed(2)}</span>
                   </div>
                 </div>
 

@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
       action: 'PAYMENT_RECEIVED',
       entity: 'Payment',
       entityId: paymentResult.id,
-      details: `Payment of $${data.amount} recorded for job ${paymentResult.job.jobNumber}`,
+      details: `Payment of RWF ${data.amount} recorded for job ${paymentResult.job.jobNumber}`,
     });
 
     return NextResponse.json({ payment: paymentResult, success: true }, { status: 201 });

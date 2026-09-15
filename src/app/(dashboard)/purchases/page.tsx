@@ -262,8 +262,8 @@ export default function PurchasesPage() {
                           </div>
                         ))}
                       </td>
-                      <td className="py-3 px-4 font-bold font-mono text-white">${p.totalCost?.toFixed(2)}</td>
-                      <td className="py-3 px-4 font-mono text-emerald-400">${p.amountPaid?.toFixed(2)}</td>
+                      <td className="py-3 px-4 font-bold font-mono text-white">RWF {p.totalCost?.toFixed(2)}</td>
+                      <td className="py-3 px-4 font-mono text-emerald-400">RWF {p.amountPaid?.toFixed(2)}</td>
                       <td className={`py-3 px-4 font-mono font-bold ${p.balanceDue > 0 ? 'text-amber-400' : 'text-slate-400'}`}>
                         ${p.balanceDue?.toFixed(2)}
                       </td>
@@ -430,7 +430,7 @@ export default function PurchasesPage() {
           <div className="grid grid-cols-2 gap-3 pt-2">
             <div>
               <span className="block text-xs text-slate-400 mb-1">Total Order Cost</span>
-              <span className="text-lg font-bold font-mono text-white">${purchaseTotal.toFixed(2)}</span>
+              <span className="text-lg font-bold font-mono text-white">RWF {purchaseTotal.toFixed(2)}</span>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">Amount Paid Upfront ($)</label>

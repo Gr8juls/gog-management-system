@@ -186,7 +186,7 @@ export default function PaymentsPage() {
                       {pay.reference || '-'}
                     </td>
                     <td className="py-3 px-4 text-center font-mono font-bold text-emerald-400">
-                      +${pay.amount?.toFixed(2)}
+                      +RWF {pay.amount?.toFixed(2)}
                     </td>
                     <td className="py-3 px-4 text-slate-300">
                       {pay.recordedBy?.name || 'Front Desk'}
@@ -245,15 +245,15 @@ export default function PaymentsPage() {
             <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs flex justify-between">
               <div>
                 <span className="text-slate-400">Total Quote: </span>
-                <strong className="text-white">${selectedJobInfo.totalAmount?.toFixed(2)}</strong>
+                <strong className="text-white">RWF {selectedJobInfo.totalAmount?.toFixed(2)}</strong>
               </div>
               <div>
                 <span className="text-slate-400">Already Paid: </span>
-                <strong className="text-emerald-400">${selectedJobInfo.depositPaid?.toFixed(2)}</strong>
+                <strong className="text-emerald-400">RWF {selectedJobInfo.depositPaid?.toFixed(2)}</strong>
               </div>
               <div>
                 <span className="text-slate-400">Remaining Bal: </span>
-                <strong className="text-amber-400">${selectedJobInfo.balanceDue?.toFixed(2)}</strong>
+                <strong className="text-amber-400">RWF {selectedJobInfo.balanceDue?.toFixed(2)}</strong>
               </div>
             </div>
           )}

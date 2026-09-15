@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
       action: 'PURCHASE_RECEIPT',
       entity: 'Purchase',
       entityId: purchase.id,
-      details: `Received purchase ${purchase.purchaseNumber} from ${purchase.supplier.name}. Total: $${totalCost}`,
+      details: `Received purchase ${purchase.purchaseNumber} from ${purchase.supplier.name}. Total: RWF ${totalCost}`,
     });
 
     return NextResponse.json({ purchase, success: true }, { status: 201 });

@@ -8,7 +8,7 @@ export default function SettingsPage() {
     COMPANY_NAME: 'GOG Printing & Branding Ltd',
     HOURLY_LABOUR_RATE: '15.00',
     DEFAULT_OVERHEAD_PERCENT: '12.5',
-    CURRENCY: 'USD',
+    CURRENCY: 'RWF',
   });
   const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState(false);
@@ -133,7 +133,7 @@ export default function SettingsPage() {
           </label>
           <input
             type="text"
-            value={settings.CURRENCY || 'USD'}
+            value={settings.CURRENCY || 'RWF'}
             onChange={(e) => setSettings({ ...settings, CURRENCY: e.target.value })}
             className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono"
           />

@@ -195,7 +195,7 @@ export async function GET(req: NextRequest) {
       ...unpaidJobBalances.map((j) => ({
         type: 'UNPAID_BALANCE',
         title: `Unpaid Job Balance: ${j.jobNumber}`,
-        message: `Outstanding balance of $${j.balanceDue.toFixed(2)} on completed job.`,
+        message: `Outstanding balance of RWF ${j.balanceDue.toFixed(2)} on completed job.`,
         severity: 'warning',
       })),
     ];

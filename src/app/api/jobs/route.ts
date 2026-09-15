@@ -197,7 +197,7 @@ export async function POST(req: NextRequest) {
       action: 'CREATE',
       entity: 'Job',
       entityId: newJob.id,
-      details: `Created job ${newJob.jobNumber} with ${itemsToCreate.length} line items. Total: $${totalAmount}`,
+      details: `Created job ${newJob.jobNumber} with ${itemsToCreate.length} line items. Total: RWF ${totalAmount}`,
     });
 
     return NextResponse.json({ job: newJob, success: true }, { status: 201 });

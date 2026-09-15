@@ -205,7 +205,7 @@ export default function ReportsPage() {
                 </span>
                 <span className="text-xl font-bold text-[#38c8ff] font-mono mt-0.5 block">
                   {typeof val === 'number' && key.toLowerCase().includes('cost') || key.toLowerCase().includes('revenue') || key.toLowerCase().includes('profit') || key.toLowerCase().includes('valuation')
-                    ? `$${val.toFixed(2)}`
+                    ? `RWF ${val.toFixed(2)}`
                     : key.toLowerCase().includes('margin')
                     ? `${val}%`
                     : val}
@@ -286,7 +286,7 @@ export default function ReportsPage() {
                     <td className="py-3 px-4 text-center font-mono font-bold text-emerald-400">{r.quantityUsed} ml</td>
                     <td className="py-3 px-4 text-center font-mono font-bold text-amber-400">{r.quantityWasted} ml</td>
                     <td className="py-3 px-4 text-slate-300">{r.reason.replace('_', ' ')}</td>
-                    <td className="py-3 px-4 text-right font-mono text-slate-300">${r.inventoryItem?.unitCost?.toFixed(3)} / ml</td>
+                    <td className="py-3 px-4 text-right font-mono text-slate-300">RWF {r.inventoryItem?.unitCost?.toFixed(3)} / ml</td>
                   </tr>
                 ))}
               </tbody>
@@ -320,7 +320,7 @@ export default function ReportsPage() {
                     <td className="py-3 px-4 text-center font-mono text-emerald-400">{r.issued}</td>
                     <td className="py-3 px-4 text-center font-mono text-cyan-400">{r.returned}</td>
                     <td className="py-3 px-4 text-center font-mono font-bold text-white">{r.currentStock}</td>
-                    <td className="py-3 px-4 text-right font-mono text-slate-300">${r.unitCost?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-right font-mono text-slate-300">RWF {r.unitCost?.toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -349,8 +349,8 @@ export default function ReportsPage() {
                     <td className="py-3 px-4 text-slate-300">{r.category.replace('_', ' ')}</td>
                     <td className="py-3 px-4 text-center font-mono font-bold text-white">{r.currentStock} {r.unitOfMeasure}</td>
                     <td className="py-3 px-4 text-center font-mono text-slate-400">{r.reorderLevel}</td>
-                    <td className="py-3 px-4 text-center font-mono text-slate-300">${r.unitCost?.toFixed(2)}</td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">${r.valuation?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-center font-mono text-slate-300">RWF {r.unitCost?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">RWF {r.valuation?.toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -416,12 +416,12 @@ export default function ReportsPage() {
                   <tr key={r.id} className="hover:bg-slate-800/30 transition-colors">
                     <td className="py-3 px-4 font-mono font-bold text-cyan-400">{r.jobNumber}</td>
                     <td className="py-3 px-4 text-white font-medium">{r.customerName}</td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-white">${r.revenue?.toFixed(2)}</td>
-                    <td className="py-3 px-4 text-right font-mono text-slate-300">${r.blankProductCost?.toFixed(2)}</td>
-                    <td className="py-3 px-4 text-right font-mono text-slate-300">${r.inkCost?.toFixed(2)}</td>
-                    <td className="py-3 px-4 text-right font-mono text-slate-300">${(r.labourCost + r.overheadCost)?.toFixed(2)}</td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-slate-200">${r.totalCost?.toFixed(2)}</td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">${r.estimatedProfit?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-right font-mono font-bold text-white">RWF {r.revenue?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-right font-mono text-slate-300">RWF {r.blankProductCost?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-right font-mono text-slate-300">RWF {r.inkCost?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-right font-mono text-slate-300">RWF {(r.labourCost + r.overheadCost)?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-right font-mono font-bold text-slate-200">RWF {r.totalCost?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-right font-mono font-bold text-emerald-400">RWF {r.estimatedProfit?.toFixed(2)}</td>
                     <td className="py-3 px-4 text-right font-mono font-bold text-cyan-400">{r.profitMarginPercent}%</td>
                   </tr>
                 ))}

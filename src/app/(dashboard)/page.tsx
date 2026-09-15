@@ -174,12 +174,12 @@ export default function DashboardPage() {
             <div className="my-4 space-y-3">
               <div>
                 <p className="text-xs text-slate-400">Total Sales ({range})</p>
-                <h3 className="text-3xl font-extrabold text-white">${metrics.totalSales?.toFixed(2)}</h3>
+                <h3 className="text-3xl font-extrabold text-white">RWF {metrics.totalSales?.toFixed(2)}</h3>
               </div>
               <div className="pt-3 border-t border-[#173256] flex items-center justify-between">
                 <div>
                   <p className="text-[11px] text-slate-400">Estimated Gross Profit</p>
-                  <p className="text-lg font-bold text-emerald-400">${metrics.totalEstimatedProfit?.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-emerald-400">RWF {metrics.totalEstimatedProfit?.toFixed(2)}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[11px] text-slate-400">Est. Margin</p>
